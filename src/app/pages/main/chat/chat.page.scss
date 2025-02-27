@@ -1,0 +1,22 @@
+.chat-container {
+    padding: 16px;
+    .message {
+      margin-bottom: 12px;
+      padding: 8px;
+      border-radius: 12px;
+      max-width: 80%;
+      &.user {
+        background: var(--ion-color-primary);
+        color: white;
+        margin-left: auto;
+      }
+      &:not(.user) {
+        background: #f1f1f1;
+        margin-right: auto;
+      }
+    }
+    .loading {
+      color: #666;
+      font-style: italic;
+    }
+  }

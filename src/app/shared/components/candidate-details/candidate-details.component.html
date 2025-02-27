@@ -1,0 +1,104 @@
+<app-header title="Detalles del postulante" [isInMenu]="true" [showBackButton]="true" (backAction)="goBack()"></app-header>
+
+
+<ion-content>
+  <div *ngIf="curriculum" class="profile-container">
+    <!-- Header con nombre -->
+    <div class="profile-header">
+      <h2>{{ curriculum.name }}</h2>
+      <h3>{{ curriculum.career }}</h3>
+    </div>
+
+    <!-- Sección de Información Personal -->
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title><ion-icon name="person-circle-outline"></ion-icon> Información Personal</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ curriculum.email }}</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ curriculum.phone }}</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ curriculum.location }}</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sección de Experiencia -->
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title><ion-icon name="briefcase-outline"></ion-icon> Experiencia Profesional</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-icon name="time-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <strong>Experiencia:</strong>
+            <p>{{ curriculum.experience }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="language-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <strong>Idiomas:</strong>
+            <p>{{ curriculum.languages }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="build-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <strong>Habilidades:</strong>
+            <p>{{ curriculum.skills }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sección Adicional -->
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title><ion-icon name="information-circle-outline"></ion-icon> Información Adicional</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-icon name="calendar-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <strong>Disponibilidad:</strong>
+            <p>{{ curriculum.availability }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="document-text-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <strong>Notas:</strong>
+            <p>{{ curriculum.notes || 'Sin notas adicionales' }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="alert-circle-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <strong>Estado:</strong>
+            <p>{{ curriculum.status }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botón destacado para PDF -->
+    <ion-button expand="block" color="primary" href="{{ curriculum.pdfUrl }}" target="_blank" class="pdf-button">
+      <ion-icon slot="start" name="document-text-outline"></ion-icon> Descargar CV
+    </ion-button>
+  </div>
+
+  <!-- Pantalla de carga -->
+  <div *ngIf="!curriculum" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando información del postulante...</p>
+  </div>
+</ion-content>

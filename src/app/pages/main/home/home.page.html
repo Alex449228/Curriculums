@@ -1,0 +1,198 @@
+<app-header title="Dashboard de Candidatos" color="primary"></app-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <!-- Zona donde estan los filtros de postulantess -->
+  <ion-toolbar class="filters-toolbar" color="light">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-searchbar
+            placeholder="Buscar por nombre o carrera"
+            [(ngModel)]="searchQuery"
+            (ionChange)="applyFilters()"
+            animated
+            clear-icon="close-circle"
+            color="light"
+            class="custom-searchbar"
+          >
+          </ion-searchbar>
+        </ion-col>
+        <ion-col size="12">
+          <ion-segment
+            [(ngModel)]="selectedStatus"
+            (ionChange)="applyFilters()"
+            color="primary"
+            scrollable
+          >
+            <ion-segment-button value="all" layout="icon-top">
+              <ion-icon name="people"></ion-icon>
+              <ion-label>Todos</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="Pendiente de Revisión">
+              <ion-icon name="time"></ion-icon>
+              <ion-label>Pendientes</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="Aprobado">
+              <ion-icon name="checkmark-done"></ion-icon>
+              <ion-label>Aprobados</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="Rechazado">
+              <ion-icon name="close"></ion-icon>
+              <ion-label>Rechazados</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+
+  <!-- Resumen -->
+  <ion-grid class="stats-grid">
+    <ion-row>
+      <!-- Total -->
+      <ion-col size="12" size-md="6" size-lg="3">
+        <ion-card class="stat-card total-card">
+          <ion-card-header>
+            <ion-icon name="people" class="stat-icon"></ion-icon>
+            <ion-card-title>{{ curriculums.length }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h3>Total de Candidatos</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Pendientes de Revisión -->
+      <ion-col size="12" size-md="6" size-lg="3">
+        <ion-card class="stat-card pending-card">
+          <ion-card-header>
+            <ion-icon name="time" class="stat-icon"></ion-icon>
+            <ion-card-title
+              >{{ getCandidatesByStatus('Pendiente de Revisión').length
+              }}</ion-card-title
+            >
+          </ion-card-header>
+          <ion-card-content>
+            <h3>Pendientes de Revisión</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Aprobados -->
+      <ion-col size="12" size-md="6" size-lg="3">
+        <ion-card class="stat-card approved-card">
+          <ion-card-header>
+            <ion-icon name="checkmark-circle" class="stat-icon"></ion-icon>
+            <ion-card-title
+              >{{ getCandidatesByStatus('Aprobado').length }}</ion-card-title
+            >
+          </ion-card-header>
+          <ion-card-content>
+            <h3>Candidatos Aprobados</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Rechazados -->
+      <ion-col size="12" size-md="6" size-lg="3">
+        <ion-card class="stat-card rejected-card">
+          <ion-card-header>
+            <ion-icon name="close-circle" class="stat-icon"></ion-icon>
+            <ion-card-title
+              >{{ getCandidatesByStatus('Rechazado').length }}</ion-card-title
+            >
+          </ion-card-header>
+          <ion-card-content>
+            <h3>Candidatos Rechazados</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Listas de los postulantes -->
+  <ion-card class="main-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="list" class="title-icon"></ion-icon>
+        Lista de Candidatos
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="none" class="candidate-list">
+        <ion-item
+          *ngFor="let candidate of filteredCandidates"
+          class="candidate-item"
+          [class]="getStatusColor(candidate.status) + '-item'"
+        >
+          <div class="status-indicator"></div>
+
+          <ion-label class="ion-text-wrap">
+            <div class="candidate-header">
+              <h2>{{ candidate.name }}</h2>
+              <ion-chip
+                [color]="getStatusColor(candidate.status)"
+                class="status-chip"
+              >
+                <ion-icon [name]="getStatusIcon(candidate.status)"></ion-icon>
+                <ion-label>{{ candidate.status }}</ion-label>
+              </ion-chip>
+            </div>
+            <p class="career">{{ candidate.career }}</p>
+            <div class="metadata">
+              <span class="date">
+                <ion-icon name="calendar" class="meta-icon"></ion-icon>
+                {{ candidate.date | date: 'dd/MM/yyyy' }}
+              </span>
+              <span class="experience">
+                <ion-icon name="briefcase" class="meta-icon"></ion-icon>
+                {{ candidate.experience }} años exp.
+              </span>
+            </div>
+          </ion-label>
+
+          <ion-buttons slot="end" class="actions">
+            <ion-button
+              fill="clear"
+              class="action-btn"
+              (click)="viewDetails(candidate.id)"
+            >
+              <ion-icon name="eye" color="medium"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Codigo donde esta las recoemndaciones -->
+  <ion-card class="recommendations-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="alert-circle" class="title-icon"></ion-icon>
+        Recomendaciones
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item
+          *ngFor="let recommendation of recommendations"
+          class="recommendation-item"
+          [color]="recommendation.color"
+        >
+          <ion-icon
+            [name]="recommendation.icon"
+            slot="start"
+            class="recommendation-icon"
+          ></ion-icon>
+          <ion-label>
+            <h3>{{ recommendation.title }}</h3>
+            <p>{{ recommendation.description }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

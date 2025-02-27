@@ -1,0 +1,204 @@
+/* Botón tipo chip */
+.chip-button {
+  position: fixed;
+  top: 80px;
+  right: 16px;
+  background-color: #0078d4;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.chip-button ion-icon {
+  font-size: 20px;
+}
+
+.chip-button:hover {
+  background-color: #005fa3;
+}
+
+/* Panel deslizante */
+.sliding-panel {
+  position: fixed;
+  top: 55px;
+  right: -100%;
+  width: 80%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.sliding-panel.open {
+  right: 0;
+}
+
+.panel-header {
+  padding: 16px;
+  background-color: #0078d4;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.close-icon {
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-icon:hover {
+  color: #ff6b6b;
+}
+
+.panel-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Estilos para los filtros activos */
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.active-chip {
+  --background: #e0f2ff;
+  --color: #0078d4;
+  cursor: pointer;
+}
+
+.active-chip ion-icon {
+  color: #0078d4;
+}
+
+/* Botón para limpiar todos los filtros */
+.clear-filters-button {
+  margin-top: 16px;
+}
+
+/* Card de postulantes */
+.candidates-container {
+  padding: 1rem;
+}
+
+.candidate-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.candidate-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  margin-bottom: 1rem;
+}
+
+.candidate-info h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.candidate-info .career {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+  margin-top: 0.2rem;
+}
+
+.card-content {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+  white-space: pre;
+}
+
+.card-content p {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.card-content ion-icon {
+  margin-right: 0.5rem;
+  color: #007aff;
+}
+
+.status {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.status ion-chip {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* Paginación clásica con números */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.pagination span {
+  margin: 0 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #f4f4f4;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.pagination span:hover {
+  background-color: #ddd;
+}
+
+.pagination span.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination ion-button {
+  margin: 0 10px;
+}
+
+/* Botón flotante para agregar/actualizar candidatos */
+.fab-add-update {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+}

@@ -1,0 +1,200 @@
+<app-header [title]="isUpdating ? 'Actualizar Currículum' : 'Publicar Currículum'" [isInModal]="true" (backAction)="dismiss()"></app-header>
+
+<ion-content>
+  <div class="form-container">
+
+    <ion-item *ngIf="isUpdating" lines="none" class="id-info">
+      <ion-label>
+        <h3>ID del Currículum:</h3>
+        <p class="ion-text-wrap">{{ form.get('id').value }}</p>
+      </ion-label>
+    </ion-item>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Información Básica</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-custom-input
+            autocomplete="name"
+            [control]="form.controls.name"
+            type="text"
+            label="Nombre"
+            icon="person-outline"
+          ></app-custom-input>
+          <app-custom-input
+            autocomplete="career"
+            [control]="form.controls.career"
+            type="text"
+            label="Carrera"
+            icon="briefcase-outline"
+          ></app-custom-input>
+          <app-custom-input
+            autocomplete="date"
+            [control]="form.controls.date"
+            type="date"
+            label="Fecha de Registro"
+            icon="calendar-outline"
+          ></app-custom-input>
+        </ion-card-content>
+      </ion-card>
+
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Contacto</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-custom-input
+            autocomplete="email"
+            [control]="form.controls.email"
+            type="email"
+            label="Correo Electrónico"
+            icon="mail-outline"
+          ></app-custom-input>
+          <app-custom-input
+            autocomplete="phone"
+            [control]="form.controls.phone"
+            type="tel"
+            label="Teléfono"
+            icon="call-outline"
+          ></app-custom-input>
+          <app-custom-input
+            autocomplete="location"
+            [control]="form.controls.location"
+            type="text"
+            label="Ubicación"
+            icon="location-outline"
+          ></app-custom-input>
+        </ion-card-content>
+      </ion-card>
+
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Detalles Profesionales</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-custom-input
+            autocomplete="experience"
+            [control]="form.controls.experience"
+            type="text"
+            label="Experiencia"
+            icon="document-text-outline"
+          ></app-custom-input>
+          <app-custom-input
+            autocomplete="languages"
+            [control]="form.controls.languages"
+            type="text"
+            label="Idiomas"
+            icon="language-outline"
+          ></app-custom-input>
+          <app-custom-input
+            autocomplete="skills"
+            [control]="form.controls.skills"
+            type="text"
+            label="Habilidades"
+            icon="construct-outline"
+          ></app-custom-input>
+          <app-custom-input
+            autocomplete="availability"
+            [control]="form.controls.availability"
+            type="text"
+            label="Disponibilidad"
+            icon="time-outline"
+          ></app-custom-input>
+        </ion-card-content>
+      </ion-card>
+
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Currículum</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item lines="none" class="file-upload">
+            <ion-label>
+              <h2>Currículum (PDF)</h2>
+              <p *ngIf="isUpdating && existingPdfUrl" class="file-item">
+                PDF actual: {{ fileName }}
+              </p>
+            </ion-label>
+            <ion-button expand="block" color="primary" (click)="fileInput.click()">
+              {{ isUpdating ? 'Cambiar PDF' : 'Seleccionar PDF' }}
+            </ion-button>
+            <input
+              type="file"
+              #fileInput
+              (change)="onFileChange($event)"
+              accept="application/pdf"
+            />
+          </ion-item>
+
+          <div *ngIf="fileName && !existingPdfUrl" class="file-item">
+            <ion-label>
+              <h3>Nuevo PDF:</h3>
+              <p>{{ fileName }}</p>
+            </ion-label>
+            <ion-button color="danger" (click)="removeFile()">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+
+          <div *ngIf="isUpdating && existingPdfUrl" class="file-item">
+            <ion-button color="danger" (click)="removeFile()">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Notas Adicionales</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-textarea
+            formControlName="notes"
+            placeholder="Escribe aquí cualquier información adicional..."
+            autoGrow="true"
+          ></ion-textarea>
+        </ion-card-content>
+      </ion-card>
+
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Estado</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label>Estado</ion-label>
+            <ion-select formControlName="status">
+              <ion-select-option value="Pendiente de Revisión">Pendiente de Revisión</ion-select-option>
+              <ion-select-option value="En Evaluación">En Evaluación</ion-select-option>
+              <ion-select-option value="Preseleccionado">Preseleccionado</ion-select-option>
+              <ion-select-option value="Candidato por Entrevistar">Candidato por Entrevistar</ion-select-option>
+              <ion-select-option value="Entrevista Realizada">Entrevista Realizada</ion-select-option>
+              <ion-select-option value="Aprobado">Aprobado</ion-select-option>
+              <ion-select-option value="Rechazado">Rechazado</ion-select-option>
+              <ion-select-option value="En Espera">En Espera</ion-select-option>
+              <ion-select-option value="Necesita Atención">Necesita Atención</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-button
+        expand="full"
+        type="submit"
+        color="secondary"
+        [disabled]="form.invalid"
+      >
+        {{ isUpdating ? 'Actualizar' : 'Publicar' }}
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,269 @@
+/* home.page.scss */
+
+/* Estilos generales */
+ion-content {
+  --background: #f5f5f5;
+}
+
+/* Media Queries para móviles */
+@media (max-width: 768px) {
+  .filters-toolbar {
+    ion-segment {
+      ion-segment-button {
+        min-width: auto;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .stats-grid {
+    ion-col {
+      padding: 8px;
+    }
+
+    .stat-card {
+      ion-card-title {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .candidate-list {
+    .candidate-item {
+      padding: 12px;
+
+      .candidate-header {
+        flex-direction: column;
+        align-items: flex-start;
+
+        h2 {
+          font-size: 1rem;
+        }
+      }
+
+      .metadata {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  }
+
+  .recommendations-card {
+    .recommendation-item {
+      h3 {
+        font-size: 1rem;
+      }
+
+      p {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+/* Tarjetas de estadísticas */
+.stats-grid {
+  .stat-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    ion-card-title {
+      color: var(--ion-color-dark);
+    }
+
+    .stat-icon {
+      color: white;
+      padding: 12px;
+      background: var(--icon-color);
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    // Colores personalizados
+    &.total-card {
+      --icon-color: #4a8bfc;
+      border-bottom: 4px solid #4a8bfc;
+
+      ion-card-title {
+        color: #2c6fd4;
+      }
+    }
+
+    &.pending-card {
+      --icon-color: #ffb347;
+      border-bottom: 4px solid #ffb347;
+
+      ion-card-title {
+        color: #cc8f3a;
+      }
+    }
+
+    &.approved-card {
+      --icon-color: #6dd230;
+      border-bottom: 4px solid #6dd230;
+
+      ion-card-title {
+        color: #54a827;
+      }
+    }
+
+    &.rejected-card {
+      --icon-color: #ff6b6b;
+      border-bottom: 4px solid #ff6b6b;
+
+      ion-card-title {
+        color: #d45454;
+      }
+    }
+
+    h3 {
+      color: var(--ion-color-medium);
+      font-weight: 500;
+    }
+  }
+}
+
+/* Lista de candidatos */
+.candidate-list {
+  .candidate-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin: 8px 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .status-indicator {
+      width: 4px;
+      height: 60px;
+      margin-right: 16px;
+      border-radius: 4px;
+    }
+
+    ion-label {
+      flex: 1;
+      min-width: 0;
+      padding-right: 12px;
+    }
+
+    .candidate-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      h2 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+    }
+
+    .status-chip {
+      margin-top: 4px;
+    }
+
+    .metadata {
+      display: flex;
+      gap: 15px;
+      margin-top: 8px;
+
+      span {
+        display: inline-flex;
+        align-items: center;
+        color: var(--ion-color-medium);
+      }
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+
+      ion-button {
+        margin: 0;
+        --padding-start: 0;
+        --padding-end: 0;
+        height: auto;
+      }
+
+      ion-icon {
+        font-size: 1.6rem;
+        padding: 4px;
+      }
+    }
+  }
+}
+
+/* Recomendaciones */
+.recommendations-card {
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .recommendation-item {
+    border-left: 4px solid;
+    margin: 8px 0;
+    border-radius: 8px;
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .recommendation-icon {
+      font-size: 1.8rem;
+      margin-right: 15px;
+    }
+  }
+}
+
+/* Filtros */
+.filters-toolbar {
+  padding: 10px 0;
+
+  ion-segment {
+    padding: 5px;
+
+    ion-segment-button {
+      --indicator-color: var(--ion-color-primary);
+      --color-checked: var(--ion-color-primary-contrast);
+      min-width: 120px;
+      border-radius: 8px;
+    }
+  }
+}
+
+/* Efectos de color para estados */
+.warning-item {
+  border-left-color: var(--ion-color-warning);
+}
+
+.success-item {
+  border-left-color: var(--ion-color-success);
+}
+
+.danger-item {
+  border-left-color: var(--ion-color-danger);
+}
+
+.primary-item {
+  border-left-color: var(--ion-color-primary);
+}

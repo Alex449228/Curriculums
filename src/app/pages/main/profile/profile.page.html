@@ -1,0 +1,114 @@
+<app-header title="Perfil"></app-header>
+
+<ion-content>
+  <div class="profile-container" *ngIf="user">
+    <!-- Perfil de Usuario -->
+    <ion-card class="profile-card">
+      <ion-card-header>
+        <div class="profile-avatar" [ngStyle]="{'background-color': avatarColor}">
+          <span>{{ getInitials(user.displayName) }}</span>
+        </div>
+        <ion-card-title>{{ user.displayName }}</ion-card-title>
+        <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item>
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-label>
+              <strong>Correo:</strong> {{ user.email }}
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-label>
+              <strong>Rol:</strong> {{ user.role }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Postulantes -->
+    <div class="curriculums">
+      <h3>Mis Postulantes</h3>
+      <ion-list>
+        <ion-item *ngFor="let curriculum of curriculums" class="curriculum-item">
+          <ion-card class="curriculum-card">
+            <ion-card-header>
+              <ion-card-title>{{ curriculum.name }}</ion-card-title>
+              <ion-button fill="clear" size="small" (click)="toggleDetails(curriculum)">
+                <ion-icon [name]="curriculum.showDetails ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+              </ion-button>
+            </ion-card-header>
+            <ion-card-content *ngIf="curriculum.showDetails">
+              <!-- Tabla de Información del Postulante -->
+              <table class="curriculum-table">
+                <tr>
+                  <td><strong>Carrera:</strong></td>
+                  <td>{{ curriculum.career }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Experiencia:</strong></td>
+                  <td>{{ curriculum.experience }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Fecha de Registro:</strong></td>
+                  <td>{{ curriculum.date }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Correo Electrónico:</strong></td>
+                  <td>{{ curriculum.email }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Teléfono:</strong></td>
+                  <td>{{ curriculum.phone }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Ubicación:</strong></td>
+                  <td>{{ curriculum.location }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Idiomas:</strong></td>
+                  <td>{{ curriculum.languages }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Habilidades:</strong></td>
+                  <td>{{ curriculum.skills }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Disponibilidad:</strong></td>
+                  <td>{{ curriculum.availability }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Notas:</strong></td>
+                  <td>{{ curriculum.notes }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Estado:</strong></td>
+                  <td>{{ curriculum.status }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Currículum:</strong></td>
+                  <td><a [href]="curriculum.pdfUrl" target="_blank">Ver PDF</a></td>
+                </tr>
+              </table>
+            </ion-card-content>
+            <div class="card-footer">
+              <div class="action-buttons">
+                <ion-button fill="solid" color="primary" (click)="updateCurriculum(curriculum)">
+                  <ion-icon slot="start" name="create-outline"></ion-icon>
+                  Editar
+                </ion-button>
+                <ion-button fill="solid" color="danger" (click)="showDeleteConfirmation(curriculum)">
+                  <ion-icon slot="start" name="trash-outline"></ion-icon>
+                  Eliminar
+                </ion-button>
+              </div>
+            </div>
+          </ion-card>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

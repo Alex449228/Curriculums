@@ -1,0 +1,159 @@
+<app-header title="Candidatos"></app-header>
+
+<ion-content>
+  <!-- Botón tipo chip para abrir el panel -->
+  <div class="chip-button" (click)="togglePanel()">
+    <ion-icon name="options-outline"></ion-icon>
+    <span>Filtros</span>
+  </div>
+
+  <!-- Panel deslizante -->
+  <div class="sliding-panel" [class.open]="showPanel">
+    <div class="panel-header">
+      <h3>Filtros y Búsqueda</h3>
+      <ion-icon
+        name="close-outline"
+        class="close-icon"
+        (click)="togglePanel()"
+      ></ion-icon>
+    </div>
+    <div class="panel-content">
+      <!-- Filtro por nombre con búsqueda en tiempo real -->
+      <ion-item class="filter-item">
+        <ion-label position="stacked">Buscar por nombre</ion-label>
+        <ion-input
+          [(ngModel)]="filter.name"
+          placeholder="Ingresa un nombre"
+          (ionChange)="applyFilter()"
+        ></ion-input>
+      </ion-item>
+
+      <!-- Filtro por carrera con autocompletado -->
+      <ion-item class="filter-item">
+        <ion-label position="stacked">Buscar por carrera</ion-label>
+        <ion-input
+          [(ngModel)]="filter.career"
+          placeholder="Selecciona una carrera"
+          (ionChange)="applyFilter()"
+        ></ion-input>
+        <ion-list *ngIf="filter.career" class="autocomplete-list">
+          <ion-item
+            *ngFor="let career of getFilteredCareers()"
+            (click)="selectCareer(career)"
+            class="autocomplete-item"
+          >
+            {{ career }}
+          </ion-item>
+        </ion-list>
+      </ion-item>
+
+      <!-- Filtro por experiencia con opciones predefinidas -->
+      <ion-item class="filter-item">
+        <ion-label position="stacked">Buscar por experiencia</ion-label>
+        <ion-select
+          [(ngModel)]="filter.experience"
+          placeholder="Selecciona experiencia"
+          (ionChange)="applyFilter()"
+        >
+          <ion-select-option *ngFor="let experience of availableExperiences" [value]="experience">
+            {{ experience }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Indicadores de filtros activos -->
+      <div class="active-filters">
+        <ion-chip *ngIf="filter.name" (click)="clearFilter('name')" class="active-chip">
+          <ion-label>Nombre: {{ filter.name }}</ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
+        <ion-chip *ngIf="filter.career" (click)="clearFilter('career')" class="active-chip">
+          <ion-label>Carrera: {{ filter.career }}</ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
+        <ion-chip *ngIf="filter.experience" (click)="clearFilter('experience')" class="active-chip">
+          <ion-label>Experiencia: {{ filter.experience }}</ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
+      </div>
+
+      <!-- Botón para limpiar todos los filtros -->
+      <ion-button expand="full" color="medium" (click)="clearAllFilters()" class="clear-filters-button">
+        Limpiar Filtros
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Lista estilizada y moderna de Candidatos -->
+  <div class="candidates-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="12"
+          size-md="6"
+          size-lg="4"
+          *ngFor="let curriculum of getPaginatedCurriculums()"
+        >
+          <div class="candidate-card">
+            <div class="card-header">
+              <div class="candidate-info">
+                <h2>{{ curriculum.name }}</h2>
+                <p class="career">{{ curriculum.career }}</p>
+              </div>
+            </div>
+            <div class="card-content">
+              <p>
+                <ion-icon name="person-circle"></ion-icon>
+                <strong>Publicado por: </strong>{{ getUserName(curriculum.userId) }}
+              </p>
+              <p>
+                <ion-icon name="briefcase"></ion-icon>
+                <strong>Experiencia: </strong>{{ curriculum.experience }}
+              </p>
+              <div class="status">
+                <ion-chip [color]="getStatusColor(curriculum.status)">
+                  <ion-label>{{ curriculum.status }}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+            <div class="card-footer">
+              <ion-button
+                fill="solid"
+                color="primary"
+                expand="block"
+                (click)="viewDetails(curriculum.id)"
+              >
+                Ver Detalles
+              </ion-button>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Paginación -->
+  <div class="pagination">
+    <ion-button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</ion-button>
+    <span
+      *ngFor="let page of getPages()"
+      (click)="goToPage(page)"
+      [class.active]="page === currentPage"
+    >
+      {{ page }}
+    </span>
+    <ion-button
+      (click)="nextPage()"
+      [disabled]="currentPage * itemsPerPage >= filteredCurriculums.length"
+    >
+      Siguiente
+    </ion-button>
+  </div>
+
+  <!-- Botón flotante para agregar/actualizar candidatos -->
+  <ion-fab vertical="bottom" horizontal="end" class="fab-add-update">
+    <ion-fab-button (click)="addUpdateCandidates()" color="primary">
+      <ion-icon name="add" class="fab-icon"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
