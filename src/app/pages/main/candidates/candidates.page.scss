@@ -5,7 +5,7 @@
   right: 16px;
   background-color: #0078d4;
   color: white;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 50px;
   display: flex;
   align-items: center;
@@ -13,15 +13,12 @@
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  transition: background-color 0.3s ease;
-}
-
-.chip-button ion-icon {
-  font-size: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .chip-button:hover {
   background-color: #005fa3;
+  transform: scale(1.05);
 }
 
 /* Panel deslizante */
@@ -88,10 +85,11 @@
   --background: #e0f2ff;
   --color: #0078d4;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.active-chip ion-icon {
-  color: #0078d4;
+.active-chip:hover {
+  --background: #cce6ff;
 }
 
 /* Botón para limpiar todos los filtros */
