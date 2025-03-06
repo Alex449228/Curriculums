@@ -1,22 +1,28 @@
-<app-header title="Estado de la API"></app-header>
+<app-header title="Chat con DeepSeek"></app-header>
 
 <ion-content class="ion-padding">
+  <!-- Input para enviar mensajes -->
+  <ion-item>
+    <ion-input
+      [(ngModel)]="mensaje"
+      placeholder="Escribe tu mensaje..."
+      (keyup.enter)="enviarMensaje()"
+    ></ion-input>
+    <ion-button (click)="enviarMensaje()" slot="end">Enviar</ion-button>
+  </ion-item>
+
+  <!-- Mostrar mensajes del chat -->
+  <div class="chat-container">
+    <div *ngFor="let msg of mensajes" class="mensaje">
+      <strong>{{ msg.role === 'user' ? 'Tú' : 'DeepSeek' }}:</strong>
+      <p>{{ msg.content }}</p>
+    </div>
+  </div>
+
   <!-- Loading State -->
   <div *ngIf="isLoading" class="ion-text-center ion-margin-top">
     <ion-spinner name="crescent"></ion-spinner>
-    <p>Verificando estado de la API...</p>
-  </div>
-
-  <!-- Success State -->
-  <div *ngIf="!isLoading && !error" class="status-container">
-    <ion-chip color="success" *ngIf="apiStatus.status">
-      <ion-icon name="server"></ion-icon>
-      <ion-label>{{ apiStatus.status | uppercase }}</ion-label>
-    </ion-chip>
-
-    <ion-text *ngIf="apiStatus.ruta_chat" class="ion-margin-top">
-      <p>Endpoint disponible: <strong>{{ apiStatus.ruta_chat }}</strong></p>
-    </ion-text>
+    <p>Enviando mensaje...</p>
   </div>
 
   <!-- Error State -->
