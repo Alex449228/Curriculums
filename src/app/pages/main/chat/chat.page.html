@@ -2,7 +2,11 @@
 
 <ion-content class="ion-padding chat-background">
   <div class="chat-container">
-    <div *ngFor="let msg of mensajes" class="mensaje" [ngClass]="{'mensaje-usuario': msg.role === 'user', 'mensaje-ia': msg.role === 'assistant'}">
+    <div
+      *ngFor="let msg of mensajes"
+      class="mensaje"
+      [ngClass]="{'mensaje-usuario': msg.role === 'user', 'mensaje-ia': msg.role === 'assistant'}"
+    >
       <div class="mensaje-contenido">
         <strong>{{ msg.role === 'user' ? 'Tú' : 'DeepSeek' }}:</strong>
         <p>{{ msg.content }}</p>
@@ -19,13 +23,20 @@
         class="input-mensaje"
         autoGrow
         rows="1"
+        maxlength="500"
+        [style.max-height.px]="150"
+        [style.overflow-y]="'auto'"
       ></ion-textarea>
       <ion-button (click)="enviarMensaje()" class="boton-enviar" fill="clear">
         <ion-icon name="send" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-item>
 
-    <ion-button (click)="abrirModalPostulantes()" expand="block" class="boton-extraer">
+    <ion-button
+      (click)="abrirModalPostulantes()"
+      expand="block"
+      class="boton-extraer"
+    >
       <ion-icon name="people" slot="start"></ion-icon>
       Seleccionar postulante
     </ion-button>
@@ -58,9 +69,11 @@
     <ion-content class="ion-padding">
       <ion-list>
         <ion-item *ngFor="let postulante of postulantes">
-          <ion-checkbox slot="start" 
-                        (ionChange)="toggleSeleccionPostulante(postulante)"
-                        [checked]="postulantesSeleccionados.includes(postulante)">
+          <ion-checkbox
+            slot="start"
+            (ionChange)="toggleSeleccionPostulante(postulante)"
+            [checked]="postulantesSeleccionados.includes(postulante)"
+          >
           </ion-checkbox>
           <ion-label>
             <h2>{{ postulante.name }}</h2>

@@ -58,17 +58,17 @@ export class ChatPage {
     }
 
     this.mensaje = this.postulantesSeleccionados.map(postulante => 
-      `📌 **Información del Postulante**\n\n` +
-      `👤 Nombre: ${postulante.name || 'Nombre no disponible'}\n` +
-      `🎓 Carrera: ${postulante.career || 'Carrera no disponible'}\n` +
-      `💼 Experiencia: ${postulante.experience || 'Experiencia no especificada'}\n` +
-      `📧 Email: ${postulante.email || 'Email no disponible'}\n` +
-      `📞 Teléfono: ${postulante.phone || 'Teléfono no disponible'}\n` +
-      `📍 Ubicación: ${postulante.location || 'Ubicación no disponible'}\n` +
-      `🗣️ Idiomas: ${postulante.languages || 'Idiomas no especificados'}\n` +
-      `🛠️ Habilidades: ${postulante.skills || 'Habilidades no especificadas'}\n` +
-      `⏳ Disponibilidad: ${postulante.availability || 'Disponibilidad no especificada'}\n` +
-      `📝 Notas: ${postulante.notes || 'Sin notas adicionales'}`
+      `**Información del Postulante**\n\n` +
+      `Nombre: ${postulante.name || 'Nombre no disponible'}\n` +
+      `Carrera: ${postulante.career || 'Carrera no disponible'}\n` +
+      `Experiencia: ${postulante.experience || 'Experiencia no especificada'}\n` +
+      `Email: ${postulante.email || 'Email no disponible'}\n` +
+      `Teléfono: ${postulante.phone || 'Teléfono no disponible'}\n` +
+      `Ubicación: ${postulante.location || 'Ubicación no disponible'}\n` +
+      `Idiomas: ${postulante.languages || 'Idiomas no especificados'}\n` +
+      `Habilidades: ${postulante.skills || 'Habilidades no especificadas'}\n` +
+      `Disponibilidad: ${postulante.availability || 'Disponibilidad no especificada'}\n` +
+      `Notas: ${postulante.notes || 'Sin notas adicionales'}`
     ).join('\n\n--------------------------------\n\n');
 
     this.cerrarModal();
