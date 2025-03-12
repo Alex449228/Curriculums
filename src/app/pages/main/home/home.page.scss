@@ -1,11 +1,7 @@
-/* home.page.scss */
-
-/* Estilos generales */
 ion-content {
   --background: #f5f5f5;
 }
 
-/* Media Queries para móviles */
 @media (max-width: 768px) {
   .filters-toolbar {
     ion-segment {
@@ -65,7 +61,6 @@ ion-content {
   }
 }
 
-/* Tarjetas de estadísticas */
 .stats-grid {
   .stat-card {
     background: white;
@@ -90,7 +85,6 @@ ion-content {
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    // Colores personalizados
     &.total-card {
       --icon-color: #4a8bfc;
       border-bottom: 4px solid #4a8bfc;
@@ -134,7 +128,6 @@ ion-content {
   }
 }
 
-/* Lista de candidatos */
 .candidate-list {
   .candidate-item {
     display: flex;
@@ -211,7 +204,6 @@ ion-content {
   }
 }
 
-/* Recomendaciones */
 .recommendations-card {
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -235,7 +227,6 @@ ion-content {
   }
 }
 
-/* Filtros */
 .filters-toolbar {
   padding: 10px 0;
 
@@ -251,7 +242,6 @@ ion-content {
   }
 }
 
-/* Efectos de color para estados */
 .warning-item {
   border-left-color: var(--ion-color-warning);
 }

@@ -1,4 +1,3 @@
-/* Botón tipo chip */
 .chip-button {
   position: fixed;
   top: 80px;
@@ -21,7 +20,6 @@
   transform: scale(1.05);
 }
 
-/* Panel deslizante */
 .sliding-panel {
   position: fixed;
   top: 55px;
@@ -73,7 +71,6 @@
   gap: 16px;
 }
 
-/* Estilos para los filtros activos */
 .active-filters {
   display: flex;
   flex-wrap: wrap;
@@ -92,12 +89,10 @@
   --background: #cce6ff;
 }
 
-/* Botón para limpiar todos los filtros */
 .clear-filters-button {
   margin-top: 16px;
 }
 
-/* Card de postulantes */
 .candidates-container {
   padding: 1rem;
 }
@@ -163,7 +158,6 @@
   font-weight: bold;
 }
 
-/* Paginación clásica con números */
 .pagination {
   display: flex;
   justify-content: center;
@@ -194,7 +188,6 @@
   margin: 0 10px;
 }
 
-/* Botón flotante para agregar/actualizar candidatos */
 .fab-add-update {
   position: fixed;
   bottom: 16px;

@@ -1,13 +1,11 @@
 <app-header title="Candidatos"></app-header>
 
 <ion-content>
-  <!-- Botón tipo chip para abrir el panel -->
   <div class="chip-button" (click)="togglePanel()">
     <ion-icon name="options-outline"></ion-icon>
     <span>Filtros</span>
   </div>
 
-  <!-- Panel deslizante -->
   <div class="sliding-panel" [class.open]="showPanel">
     <div class="panel-header">
       <h3>Filtros y Búsqueda</h3>
@@ -18,7 +16,6 @@
       ></ion-icon>
     </div>
     <div class="panel-content">
-      <!-- Filtro por nombre con búsqueda en tiempo real -->
       <ion-item class="filter-item">
         <ion-label position="stacked">Buscar por nombre</ion-label>
         <ion-input
@@ -28,7 +25,6 @@
         ></ion-input>
       </ion-item>
 
-      <!-- Filtro por carrera con autocompletado -->
       <ion-item class="filter-item">
         <ion-label position="stacked">Buscar por carrera</ion-label>
         <ion-input
@@ -47,7 +43,6 @@
         </ion-list>
       </ion-item>
 
-      <!-- Filtro por experiencia con opciones predefinidas -->
       <ion-item class="filter-item">
         <ion-label position="stacked">Buscar por experiencia</ion-label>
         <ion-select
@@ -61,7 +56,6 @@
         </ion-select>
       </ion-item>
 
-      <!-- Indicadores de filtros activos -->
       <div class="active-filters">
         <ion-chip *ngIf="filter.name" (click)="clearFilter('name')" class="active-chip">
           <ion-label>Nombre: {{ filter.name }}</ion-label>
@@ -77,14 +71,12 @@
         </ion-chip>
       </div>
 
-      <!-- Botón para limpiar todos los filtros -->
       <ion-button expand="full" color="medium" (click)="clearAllFilters()" class="clear-filters-button">
         Limpiar Filtros
       </ion-button>
     </div>
   </div>
 
-  <!-- Lista estilizada y moderna de Candidatos -->
   <div class="candidates-container">
     <ion-grid>
       <ion-row>
@@ -132,7 +124,6 @@
     </ion-grid>
   </div>
 
-  <!-- Paginación -->
   <div class="pagination">
     <ion-button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</ion-button>
     <span
@@ -150,7 +141,6 @@
     </ion-button>
   </div>
 
-  <!-- Botón flotante para agregar/actualizar candidatos -->
   <ion-fab vertical="bottom" horizontal="end" class="fab-add-update">
     <ion-fab-button (click)="addUpdateCandidates()" color="primary">
       <ion-icon name="add" class="fab-icon"></ion-icon>
