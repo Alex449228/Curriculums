@@ -7,6 +7,8 @@
   flex-direction: column;
   gap: 12px;
   padding-bottom: 80px;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px); /* Ajusta la altura según sea necesario */
 }
 
 .mensaje {
@@ -14,6 +16,7 @@
   padding: 12px;
   border-radius: 12px;
   word-wrap: break-word;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para los mensajes */
 }
 
 .mensaje-usuario {
@@ -48,6 +51,8 @@
 .input-mensaje {
   --padding-start: 16px;
   --padding-end: 16px;
+  --min-height: 50px; /* Altura mínima del área de texto */
+  --max-height: 150px; /* Altura máxima del área de texto */
 }
 
 .boton-enviar {

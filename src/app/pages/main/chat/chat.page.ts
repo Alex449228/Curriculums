@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { IonTextarea } from '@ionic/angular'; // Importa IonTextarea
 import { DeepSeekService } from 'src/app/services/deepseek.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Curriculum } from 'src/app/models/curriculum.model';
@@ -9,6 +10,9 @@ import { Curriculum } from 'src/app/models/curriculum.model';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage {
+  @ViewChild('chatContainer', { static: false }) chatContainer: ElementRef;
+  @ViewChild('inputMensaje', { static: false }) inputMensaje: IonTextarea; // Referencia al ion-textarea
+
   mensaje: string = '';
   mensajes: { role: string; content: string }[] = [];
   isLoading = false;
@@ -21,6 +25,18 @@ export class ChatPage {
     private deepSeekService: DeepSeekService,
     private firebaseService: FirebaseService
   ) {}
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    try {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Error al desplazar el chat:', err);
+    }
+  }
 
   async abrirModalPostulantes() {
     this.isLoading = true;
@@ -39,11 +55,12 @@ export class ChatPage {
 
   cerrarModal() {
     this.modalAbierto = false;
+    this.postulantesSeleccionados = [];
   }
 
   toggleSeleccionPostulante(postulante: Curriculum) {
     const index = this.postulantesSeleccionados.findIndex(p => p.id === postulante.id);
-    
+
     if (index > -1) {
       this.postulantesSeleccionados.splice(index, 1);
     } else {
@@ -51,12 +68,14 @@ export class ChatPage {
     }
   }
 
-  confirmarSeleccion() {
+  async confirmarSeleccion() {
     if (this.postulantesSeleccionados.length === 0) {
       console.warn('No hay postulantes seleccionados');
+      this.error = 'Por favor, selecciona al menos un postulante.';
       return;
     }
 
+    // Formatear la información de los postulantes seleccionados
     this.mensaje = this.postulantesSeleccionados.map(postulante => 
       `**Información del Postulante**\n\n` +
       `Nombre: ${postulante.name || 'Nombre no disponible'}\n` +
@@ -72,10 +91,18 @@ export class ChatPage {
     ).join('\n\n--------------------------------\n\n');
 
     this.cerrarModal();
+
+    // Restaurar el foco al cuadro de texto
+    setTimeout(() => {
+      this.inputMensaje.setFocus(); // Enfocar el cuadro de texto
+    }, 100); // Pequeño retraso para asegurar que el modal se haya cerrado
   }
 
   async enviarMensaje() {
-    if (!this.mensaje.trim()) return;
+    if (!this.mensaje.trim()) {
+      this.error = 'Por favor, escribe un mensaje.';
+      return;
+    }
 
     this.isLoading = true;
     this.error = '';

@@ -6,19 +6,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DeepSeekService {
-  private openRouterApiUrl = 'https://openrouter.ai/api/v1/chat/completions'; // Endpoint de OpenRouter
-  private apiKey = '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'; // Reemplaza con tu API Key de OpenRouter
+  private openRouterApiUrl = 'https://openrouter.ai/api/v1/chat/completions'; 
+  private apiKey = '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'; 
 
   constructor(private http: HttpClient) {}
 
   /**
-   * Envía una solicitud a la API de DeepSeek y obtiene una respuesta.
-   * @param prompt El mensaje o consulta que se enviará a la IA.
-   * @returns Un Observable con la respuesta de la IA.
+   * 
+   * @param prompt 
+   * @returns 
    */
   consultarDeepSeek(prompt: string): Observable<any> {
     const body = {
-      model: 'deepseek/deepseek-r1-distill-llama-70b', // Modelo de IA
+      model: 'deepseek/deepseek-r1-distill-qwen-14b:free', 
       messages: [{ role: 'user', content: prompt }],
     };
 

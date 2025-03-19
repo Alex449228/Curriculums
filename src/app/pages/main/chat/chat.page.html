@@ -1,7 +1,8 @@
 <app-header title="Chat con DeepSeek"></app-header>
 
 <ion-content class="ion-padding chat-background">
-  <div class="chat-container">
+  <!-- Contenedor del chat con scroll -->
+  <div class="chat-container" #chatContainer>
     <div
       *ngFor="let msg of mensajes"
       class="mensaje"
@@ -14,6 +15,7 @@
     </div>
   </div>
 
+  <!-- Contenedor de entrada de texto y botones -->
   <div class="input-container">
     <ion-item class="input-item">
       <ion-textarea
@@ -23,7 +25,7 @@
         class="input-mensaje"
         autoGrow
         rows="1"
-        maxlength="500"
+        maxlength="1200"
         [style.max-height.px]="150"
         [style.overflow-y]="'auto'"
       ></ion-textarea>
@@ -32,6 +34,7 @@
       </ion-button>
     </ion-item>
 
+    <!-- Botón para abrir el modal de postulantes -->
     <ion-button
       (click)="abrirModalPostulantes()"
       expand="block"
@@ -42,11 +45,13 @@
     </ion-button>
   </div>
 
+  <!-- Indicador de carga -->
   <div *ngIf="isLoading" class="loading-container">
     <ion-spinner name="crescent" class="spinner"></ion-spinner>
     <p>Enviando mensaje...</p>
   </div>
 
+  <!-- Mensaje de error -->
   <div *ngIf="error" class="error-container">
     <ion-chip color="danger">
       <ion-icon name="warning"></ion-icon>
@@ -55,6 +60,7 @@
   </div>
 </ion-content>
 
+<!-- Modal de selección de postulantes -->
 <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
   <ng-template>
     <ion-header>
