@@ -8,7 +8,6 @@ export class FilterPipe implements PipeTransform {
     if (!items || !searchText) {
       return items;
     }
-    // Filtra los elementos que coincidan con el texto de búsqueda
     return items.filter((item) =>
       item.toLowerCase().includes(searchText.toLowerCase())
     );
