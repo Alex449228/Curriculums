@@ -1,8 +1,14 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonTextarea } from '@ionic/angular'; // Importa IonTextarea
+import { IonTextarea } from '@ionic/angular';
 import { DeepSeekService } from 'src/app/services/deepseek.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Curriculum } from 'src/app/models/curriculum.model';
+
+interface Mensaje {
+  role: string;
+  content: string;
+  timestamp: Date;
+}
 
 @Component({
   selector: 'app-chat',
@@ -11,10 +17,10 @@ import { Curriculum } from 'src/app/models/curriculum.model';
 })
 export class ChatPage {
   @ViewChild('chatContainer', { static: false }) chatContainer: ElementRef;
-  @ViewChild('inputMensaje', { static: false }) inputMensaje: IonTextarea; // Referencia al ion-textarea
+  @ViewChild('inputMensaje', { static: false }) inputMensaje: IonTextarea;
 
   mensaje: string = '';
-  mensajes: { role: string; content: string }[] = [];
+  mensajes: Mensaje[] = [];
   isLoading = false;
   error = '';
   modalAbierto = false;
@@ -60,7 +66,6 @@ export class ChatPage {
 
   toggleSeleccionPostulante(postulante: Curriculum) {
     const index = this.postulantesSeleccionados.findIndex(p => p.id === postulante.id);
-
     if (index > -1) {
       this.postulantesSeleccionados.splice(index, 1);
     } else {
@@ -70,12 +75,10 @@ export class ChatPage {
 
   async confirmarSeleccion() {
     if (this.postulantesSeleccionados.length === 0) {
-      console.warn('No hay postulantes seleccionados');
       this.error = 'Por favor, selecciona al menos un postulante.';
       return;
     }
 
-    // Formatear la información de los postulantes seleccionados
     this.mensaje = this.postulantesSeleccionados.map(postulante => 
       `**Información del Postulante**\n\n` +
       `Nombre: ${postulante.name || 'Nombre no disponible'}\n` +
@@ -91,38 +94,53 @@ export class ChatPage {
     ).join('\n\n--------------------------------\n\n');
 
     this.cerrarModal();
-
-    // Restaurar el foco al cuadro de texto
-    setTimeout(() => {
-      this.inputMensaje.setFocus(); // Enfocar el cuadro de texto
-    }, 100); // Pequeño retraso para asegurar que el modal se haya cerrado
+    setTimeout(() => this.inputMensaje.setFocus(), 100);
   }
 
   async enviarMensaje() {
-    if (!this.mensaje.trim()) {
+    const mensajeActual = this.mensaje.trim();
+    if (!mensajeActual) {
       this.error = 'Por favor, escribe un mensaje.';
       return;
     }
 
     this.isLoading = true;
     this.error = '';
+    
+    // Guardamos el mensaje en una variable antes de limpiar
+    const contenidoMensaje = this.mensaje;
+    
+    // Agregamos el mensaje del usuario al historial
+    this.mensajes.push({ 
+      role: 'user', 
+      content: contenidoMensaje,
+      timestamp: new Date() 
+    });
 
-    this.mensajes.push({ role: 'user', content: this.mensaje });
+    // Limpiamos el campo de entrada
+    this.mensaje = '';
 
     try {
       const respuesta = await this.deepSeekService
-        .consultarDeepSeek(this.mensaje)
+        .consultarDeepSeek(contenidoMensaje)  // Usamos la variable guardada
         .toPromise();
 
+      // Agregamos la respuesta al historial
       this.mensajes.push({
         role: 'assistant',
         content: respuesta.choices[0].message.content,
+        timestamp: new Date()
       });
 
-      this.mensaje = '';
     } catch (err) {
       console.error('Error al enviar mensaje:', err);
       this.error = 'Error al comunicarse con la IA';
+      
+      this.mensajes.push({
+        role: 'system',
+        content: 'Lo siento, hubo un error al procesar tu solicitud.',
+        timestamp: new Date()
+      });
     } finally {
       this.isLoading = false;
     }

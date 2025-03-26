@@ -1,7 +1,6 @@
 <app-header title="Chat con DeepSeek"></app-header>
 
 <ion-content class="ion-padding chat-background">
-  <!-- Contenedor del chat con scroll -->
   <div class="chat-container" #chatContainer>
     <div
       *ngFor="let msg of mensajes"
@@ -9,15 +8,24 @@
       [ngClass]="{'mensaje-usuario': msg.role === 'user', 'mensaje-ia': msg.role === 'assistant'}"
     >
       <div class="mensaje-contenido">
-        <strong>{{ msg.role === 'user' ? 'Tú' : 'DeepSeek' }}:</strong>
-        <p>{{ msg.content }}</p>
+        <div class="mensaje-cabecera">
+          <ion-icon 
+            [name]="msg.role === 'user' ? 'person-circle' : 'chatbubble-ellipses'" 
+            class="mensaje-icono"
+            [color]="msg.role === 'user' ? 'primary' : 'medium'">
+          </ion-icon>
+          <strong>{{ msg.role === 'user' ? 'Tú' : 'DeepSeek' }}</strong>
+          <span class="mensaje-hora">{{msg.timestamp | date:'HH:mm'}}</span>
+        </div>
+        <div class="mensaje-texto">
+          <p>{{ msg.content }}</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Contenedor de entrada de texto y botones -->
   <div class="input-container">
-    <ion-item class="input-item">
+    <div class="input-wrapper">
       <ion-textarea
         [(ngModel)]="mensaje"
         placeholder="Escribe tu mensaje..."
@@ -25,71 +33,74 @@
         class="input-mensaje"
         autoGrow
         rows="1"
-        maxlength="1200"
-        [style.max-height.px]="150"
-        [style.overflow-y]="'auto'"
-      ></ion-textarea>
-      <ion-button (click)="enviarMensaje()" class="boton-enviar" fill="clear">
+        maxlength="1200">
+      </ion-textarea>
+      <ion-button 
+        (click)="enviarMensaje()" 
+        class="boton-enviar" 
+        [disabled]="!mensaje || mensaje.trim().length === 0">
         <ion-icon name="send" slot="icon-only"></ion-icon>
       </ion-button>
-    </ion-item>
+    </div>
 
-    <!-- Botón para abrir el modal de postulantes -->
     <ion-button
       (click)="abrirModalPostulantes()"
       expand="block"
-      class="boton-extraer"
-    >
+      class="boton-accion">
       <ion-icon name="people" slot="start"></ion-icon>
       Seleccionar postulante
+      <ion-badge *ngIf="postulantesSeleccionados.length > 0" color="primary" slot="end">
+        {{postulantesSeleccionados.length}}
+      </ion-badge>
     </ion-button>
   </div>
 
-  <!-- Indicador de carga -->
   <div *ngIf="isLoading" class="loading-container">
     <ion-spinner name="crescent" class="spinner"></ion-spinner>
-    <p>Enviando mensaje...</p>
+    <p>DeepSeek está pensando...</p>
   </div>
 
-  <!-- Mensaje de error -->
   <div *ngIf="error" class="error-container">
     <ion-chip color="danger">
       <ion-icon name="warning"></ion-icon>
       <ion-label>{{ error }}</ion-label>
+      <ion-icon name="close" (click)="error = ''"></ion-icon>
     </ion-chip>
   </div>
 </ion-content>
 
-<!-- Modal de selección de postulantes -->
-<ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
+<ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()" class="custom-modal">
   <ng-template>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title>Seleccionar Postulantes</ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+          <ion-button (click)="cerrarModal()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-list>
+      <ion-searchbar placeholder="Buscar postulantes..."></ion-searchbar>
+      
+      <ion-list lines="full">
         <ion-item *ngFor="let postulante of postulantes">
           <ion-checkbox
             slot="start"
             (ionChange)="toggleSeleccionPostulante(postulante)"
-            [checked]="postulantesSeleccionados.includes(postulante)"
-          >
+            [checked]="postulantesSeleccionados.includes(postulante)">
           </ion-checkbox>
           <ion-label>
-            <h2>{{ postulante.name }}</h2>
+            <h3>{{ postulante.name }}</h3>
             <p>{{ postulante.email }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
 
-      <ion-button expand="block" (click)="confirmarSeleccion()" color="success">
-        Confirmar Selección
+      <ion-button expand="block" (click)="confirmarSeleccion()" color="primary">
+        Confirmar ({{postulantesSeleccionados.length}})
       </ion-button>
     </ion-content>
   </ng-template>

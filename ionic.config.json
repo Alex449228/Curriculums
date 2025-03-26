@@ -3,5 +3,11 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+
+  "app": {
+    "keyboard": {
+      "resize": "body"
+    }
+  }
 }
