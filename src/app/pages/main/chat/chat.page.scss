@@ -167,7 +167,7 @@ ion-content {
   right: 0;
 }
 
-.loading-container ion-spinner {
+.loading-container ion-spinner{
   color: var(--color-loading);
   transform: scale(1.5);
 }
@@ -175,7 +175,7 @@ ion-content {
 .loading-container p {
   margin-top: 16px;
   color: var(--color-text-dark);
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .error-container {
